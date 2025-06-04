@@ -1,0 +1,29 @@
+# Python-related files
+__pycache__/
+*.py[cod]
+*.env
+
+# Virtual environments
+venv/
+.env/
+
+# Logs & temp files
+*.log
+*.cache
+
+# IDE files
+.vscode/
+.idea/
+
+# Uvicorn-related logs
+*.pid
+
+# Database files
+*.db
+*.sqlite
+
+# Dependencies (if using poetry or pipenv)
+*.lock
+
+# Ignore compiled translations if relevant
+locale/**/*.mo
