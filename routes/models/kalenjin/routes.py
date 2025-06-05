@@ -24,5 +24,5 @@ async def translate_text(request: TranslationRequest):
             detail=f"Translation error: {str(e)}"
         )
 
-# MONGO_DB_URL = mongodb+srv://ketertitus815:ketertitus815@cluster0.fpnydop.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
-# HF_TOKEN=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
+# mongodb+srv://ketertitus815:ketertitus815@cluster0.fpnydop.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+# 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
