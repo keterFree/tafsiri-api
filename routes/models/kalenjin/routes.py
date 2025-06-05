@@ -23,6 +23,3 @@ async def translate_text(request: TranslationRequest):
             status_code=500,
             detail=f"Translation error: {str(e)}"
         )
-
-# mongodb+srv://ketertitus815:ketertitus815@cluster0.fpnydop.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
-# 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
