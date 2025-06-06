@@ -5,6 +5,10 @@ from fastapi import APIRouter, Query
 from db import translations_collection
 from typing import Optional
 
+# import logging
+
+# Configure logging
+# logging.basicConfig(level=logging.DEBUG)
 router = APIRouter()
 
 # Add a translation
@@ -36,41 +40,44 @@ async def get_all_translations(
     translations = await translations_collection.find(query).skip(skip).limit(limit).to_list(100)
     return {"translations": translations}
 
+
 @router.get("/contributions/stats")
 async def get_contribution_stats(translator_auth_id: str, time_filter: str = "all"):
-    # Calculate date range based on time filter
     today = datetime.now(timezone.utc)
     date_filter = {}
-    
+
     if time_filter == "week":
         start_date = today - timedelta(days=7)
         date_filter = {"timestamp": {"$gte": start_date}}
     elif time_filter == "month":
         start_date = today - timedelta(days=30)
         date_filter = {"timestamp": {"$gte": start_date}}
-    
-    # Get total count
+
     query = {"translator_auth_id": translator_auth_id}
     query.update(date_filter)
+
+    # DEBUG: Print query
+    #logging.debug(f"Query for stats: {query}")
+
     total_count = await translations_collection.count_documents(query)
-    
-    # Get count by source
+    #logging.debug(f"Total translations: {total_count}")
+
     source_pipeline = [
         {"$match": {"translator_auth_id": translator_auth_id, **date_filter}},
         {"$group": {"_id": "$source", "count": {"$sum": 1}}}
     ]
     by_source = await translations_collection.aggregate(source_pipeline).to_list(None)
+    #logging.debug(f"By source: {by_source}")
     by_source = {item["_id"]: item["count"] for item in by_source}
-    
-    # Get count by language
+
     language_pipeline = [
         {"$match": {"translator_auth_id": translator_auth_id, **date_filter}},
         {"$group": {"_id": "$language", "count": {"$sum": 1}}}
     ]
     by_language = await translations_collection.aggregate(language_pipeline).to_list(None)
+    #logging.debug(f"By language: {by_language}")
     by_language = {item["_id"]: item["count"] for item in by_language}
-    
-    # Get daily contributions - improved version
+
     daily_pipeline = [
         {"$match": {"translator_auth_id": translator_auth_id, **date_filter}},
         {"$project": {
@@ -94,13 +101,14 @@ async def get_contribution_stats(translator_auth_id: str, time_filter: str = "al
         }}
     ]
     daily_contributions = await translations_collection.aggregate(daily_pipeline).to_list(None)
-    print("daily_contributions")
-    # Get most recent contribution
+    #logging.debug(f"Daily contributions: {daily_contributions}")
+
     last_contribution = await translations_collection.find_one(
         {"translator_auth_id": translator_auth_id, **date_filter},
         sort=[("timestamp", -1)]
     )
-    
+    #logging.debug(f"Last contribution: {last_contribution}")
+
     return {
         "total": total_count,
         "by_source": by_source,
