@@ -27,3 +27,4 @@ venv/
 
 # Ignore compiled translations if relevant
 locale/**/*.mo
+.vercel
