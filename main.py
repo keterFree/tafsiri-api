@@ -17,6 +17,7 @@ app.add_middleware(
     allow_origins=[
         "http://localhost:3000",
         "https://tafsiri-frontend-phi.vercel.app",
+        "https://www.tafsiri.site",
     ],
     allow_credentials=True,
     allow_methods=["*"],
