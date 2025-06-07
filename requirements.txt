@@ -13,6 +13,7 @@ h11==0.16.0
 huggingface-hub==0.32.3
 idna==3.10
 Jinja2==3.1.6
+joblib==1.5.1
 MarkupSafe==3.0.2
 motor==3.7.1
 mpmath==1.3.0
@@ -27,8 +28,10 @@ python-multipart==0.0.20
 PyYAML==6.0.2
 regex==2024.11.6
 requests==2.32.3
+sacremoses==0.0.53
 safetensors==0.5.3
 sentencepiece==0.2.0
+six==1.17.0
 sniffio==1.3.1
 starlette==0.46.2
 sympy==1.14.0
@@ -40,4 +43,4 @@ typing-inspection==0.4.1
 typing_extensions==4.14.0
 urllib3==2.4.0
 uvicorn==0.34.3
-sacremoses==0.0.53
+vercel==0.2.1
